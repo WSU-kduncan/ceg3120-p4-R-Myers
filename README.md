@@ -60,3 +60,4 @@
   4. Test the workflow by publishing a release. Click releases on the right, draft a new release with a tag version, and click publish. You can see the progress of your workflow within Github Actions. If it succeeds, you've done it! Also check your Dockerhub repo for the image!
      * If it failed, check the workflow file to ensure you've correctly referenced your credentials that exist within your Github Secrets.
      * If those all match, you may be able to see where the workflow went wrong by clicking the failed action in Github Actions.
+* You can then test your entire setup by running a ```docker pull [dockerhubRepo]:[tag]``` which will pull your image from your Dockerhub repo, and then running it with a ```docker run -d -p [containerPort]:[machinePort] [imageName]```. Then simply navigate your browser once again to ```127.0.0.1:[containerPort]``` and see if your index.html file pops up!
