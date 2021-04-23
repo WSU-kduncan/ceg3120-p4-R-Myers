@@ -41,9 +41,22 @@
   * Type ```aws configure```
   * Enter the AWS access key provided to you.
   * Enter the AWS Secret Access Key provided to you.
-  * Specify to correct region and outfile format.
+  * Specify to correct region and output file format.
   * This will create two new files within the ```.aws``` directory called ```config``` and ```credentials``` with the associated values within.
     * You can also manually create these files quite easily, just be sure to follow formatting conventions.
 * With these credentials connecting you to an IAM user with the proper permissions, you can create an ECR using the commmand: 
   * ```aws ecr create-repository --repository-name [repoName] --region [region]``` 
-    *  **Due to unforeseen circumstances, this portion of the project has been deprecated in favor of creating a Dockerhub repo via the Dockerhub site, which will be documented below.**
+    *  **(Due to unforeseen circumstances, this portion of the project has been deprecated in favor of creating a Dockerhub repo via the Dockerhub site, which will be documented below.)**
+
+## 3) Dockerhub
+* Creating a Dockerhub repo is as straightforward as creating an account, choosing to use the free version, and clicking "Create Repository".
+* From here, we need to accomplish a few things:
+  1. With your new Dockerhub account login credentials, navigate to you Github repo and add them to your Secrets as ```DOCKER_USERNAME``` and ```DOCKER_PASSWORD```.
+  2. We need a workflow that will publish a Docker image from Github to Dockerhub.
+     * The YAML template found [here](https://docs.github.com/en/actions/guides/publishing-docker-images#publishing-images-to-docker-hub) will work for us.
+       * This file needs to be configured. Set the ```DOCKER_HUB_REPO``` to be the [username]/[repoName] of your Dockerhub repo.
+     * Push this file to your Github repo within the ```.github\workflows\``` path.
+  3. With the workflow in its correct path, it should be listed under your Github Actions. This workflow is set to run when you publish a release. 
+  4. Test the workflow by publishing a release. Click releases on the right, draft a new release with a tag version, and click publish. You can see the progress of your workflow within Github Actions. If it succeeds, you've done it! Also check your Dockerhub repo for the image!
+     * If it failed, check the workflow file to ensure you've correctly referenced your credentials that exist within your Github Secrets.
+     * If those all match, you may be able to see where the workflow went wrong by clicking the failed action in Github Actions.
